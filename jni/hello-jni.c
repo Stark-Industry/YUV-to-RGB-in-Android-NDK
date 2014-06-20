@@ -50,7 +50,10 @@ JNICALL Java_in_manishpathak_videodemo_OverlayView_YUVtoRBG(JNIEnv * env, jobjec
     int             G = 0;
     int             B = 0;
     int             cOff;
-	int w = width;
+    int             newB  = 0;
+    int             newG  = 0;
+    int             newR  = 0;
+ 	int w = width;
 	int h = height;
     sz = w * h;
 
@@ -82,6 +85,26 @@ JNICALL Java_in_manishpathak_videodemo_OverlayView_YUVtoRBG(JNIEnv * env, jobjec
                      if(G < 0) G = 0; else if(G > 255) G = 255;
                      B = Y + Cb + (Cb >> 1) + (Cb >> 2) + (Cb >> 6);//1.765~1.770
                      if(B < 0) B = 0; else if(B > 255) B = 255;
+/*
+                  newB= (int) (0.272*R+0.534*G+0.131*B);
+                   newG= (int) (0.349*R+0.686*G+0.168*B);
+                  newR= (int) (0.393*R+0.769*G+0.189*B);
+*/
+/*
+                     newB= R / 4 + G / 2 + B / 9;
+                     newG= R / 3 + G / 2 + B / 8;
+                     newR= R / 3 + G / 2 + B / 7;
+
+                     if(newB<0)newB=0;
+                     if(newB>255)newB=255;
+                     if(newG<0)newG=0;
+                     if(newG>255)newG=255;
+                     if(newR<0)newR=0;
+                     if(newR>255)newR=255;
+
+                 	 rgbData[pixPtr++] = 0xff000000 + (newB << 16) + (newG << 8) + newR;
+                 	 */
+
                      rgbData[pixPtr++] = 0xff000000 + (B << 16) + (G << 8) + R;
              }
     }
@@ -89,3 +112,16 @@ JNICALL Java_in_manishpathak_videodemo_OverlayView_YUVtoRBG(JNIEnv * env, jobjec
 
 	(*env)->ReleaseByteArrayElements(env, yuv420sp, yuv, JNI_ABORT);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
